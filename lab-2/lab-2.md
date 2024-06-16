@@ -4,21 +4,25 @@
 
 Запрос для формирования датасета:
 
-`
-select count(id) as "license_categories", min(gender) as "gender", min(experience) as "experience",
-min(birthday) as "birthday", sum(count_fines) as "count_fines", min(brand) as "brand", min("number_tr") as "number"
-from (
-    license l full join
-        (select d.id as "driver_id", d.gender as "gender", d.experience as "experience", d.birthday as "birthday", count(f.id) as "count_fines",
-        min(t.brand) as "brand", min(t."number") as "number_tr"
-        from 
-            fine f full join transport t on f.transport = t.id full join driver d on t."owner" = d.id
-        group by d.id)	
-    on l.driver = driver_id
-) group by driver_id;
+![image](https://github.com/vellarLa/EnterpriseDataBase/assets/83453185/254a877f-68bb-4201-bbef-58d16fc3e8be)
 
 Результат запроса был выгружен в .csv файл для дальнейшего анализа.
 
 Данные:
 
-`
+ 1   license_categories   - количество категорий прав
+ 
+ 2   gender              - пол
+ 
+ 3   experience          - опыт вождения
+ 
+ 4   birthday            - день рождения
+ 
+ 5   count_fines         - количество штрафов
+ 
+ 6   brand               - марка машины
+ 
+ 7   number              - номер машины
+
+ В качестве классификатора был выбран RandomForest. Все действия по обучению модели и подбору гиперпараметров с подробным описанием находятся в jupiter блокноте. 
+
